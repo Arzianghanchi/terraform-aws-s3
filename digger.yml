@@ -1,0 +1,3 @@
+projects:
+  - name: complete
+    dir: examples/default-s3/
