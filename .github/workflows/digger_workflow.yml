@@ -17,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: ${{ fromJSON(github.event.inputs.spec).job_id }}
-        run: echo "job id ${{ fromJSON(github.event.inputs.spec).job_id }}"
       - uses: diggerhq/digger@vLatest
         with:
           aws-role-to-assume: arn:aws:iam::924144197303:role/arziandiggercicd
