@@ -2,7 +2,9 @@ name: Digger Plan
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    branches: [ "main" ]
+    types: [closed, opened, reopened, synchronize]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,9 +17,9 @@ permissions:
 jobs:
   digger:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
-      - uses: actions/checkout@v4
-      - uses: diggerhq/digger@vLatest
+      - uses: diggerhq/digger@v0.2.0
         with:
           aws-role-to-assume: arn:aws:iam::924144197303:role/arziandiggercicd
           aws-region: us-east-1
