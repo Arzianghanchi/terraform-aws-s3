@@ -62,7 +62,7 @@ module "kms_key" {
   enabled                 = true
   description             = "KMS key for s3"
   deletion_window_in_days = 7
-  enable_key_rotation     = true
+  enable_key_rotation     = false
   alias                   = "alias/s3"
   policy                  = data.aws_iam_policy_document.default.json
 }
