@@ -1,39 +1,31 @@
-name: Digger Workflow
+name: Digger Plan
 
 on:
-  workflow_dispatch:
-    inputs:
-      spec:
-        required: true
-      run_name:
-        required: false
+  pull_request:
+    types: [opened, reopened, synchronize]
 
-run-name: '${{inputs.run_name}}'
+permissions:
+  contents: write
+  actions: write
+  pull-requests: write
+  issues: read
+  statuses: write
+  id-token: write
 
 jobs:
   digger:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write      # required to merge PRs
-      actions: write       # required for plan persistence
-      id-token: write      # required for workload-identity-federation
-      pull-requests: write # required to post PR comments
-      issues: read         # required to check if PR number is an issue or not
-      statuses: write      # required to validate combined PR status
     steps:
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: diggerhq/digger@vLatest
         with:
-          digger-spec: ${{ inputs.spec }}
-          setup-aws: true
-          setup-terraform: true
           aws-role-to-assume: arn:aws:iam::924144197303:role/arziandiggercicd
           aws-region: us-east-1
+          setup-terraform: true
           terraform-version: 1.6.6
-          # configure-checkout: true
-          # disable-locking: true
-          # no-backend: true
+          configure-checkout: true
+          disable-locking: true
+          no-backend: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
-
